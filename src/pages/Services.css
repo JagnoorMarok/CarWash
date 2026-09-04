@@ -40,7 +40,7 @@
 }
 
 .accordion-content {
-  padding-bottom: 20px;
+  padding-bottom: 24px;
   color: var(--text-secondary);
   font-size: 0.95rem;
   font-weight: 400;
@@ -48,15 +48,32 @@
   animation: slideDown 0.3s ease-out;
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.service-desc {
+  margin-bottom: 16px;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.service-features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.service-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.feature-icon {
+  color: var(--primary-color);
+  flex-shrink: 0;
 }
 
 @media (min-width: 768px) {

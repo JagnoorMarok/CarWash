@@ -4,11 +4,10 @@ import { ArrowLeft, Phone, Mail, MapPin, Clock, CheckCircle } from 'lucide-react
 import './BookingPage.css';
 
 const serviceOptions = [
-  { id: 'interior', name: 'Interior Detailing', price: 'From $120' },
-  { id: 'exterior', name: 'Exterior Detailing', price: 'From $100' },
-  { id: 'full', name: 'Full Detail Package', price: 'From $200' },
-  { id: 'ceramic', name: 'Ceramic Coating', price: 'From $300' },
-  { id: 'paint', name: 'Paint Correction', price: 'From $250' },
+  { id: 'exterior-wash', name: 'Exterior Wash', price: 'Hand Wash & Wheel Care' },
+  { id: 'interior-cleaning', name: 'Interior Cleaning', price: 'Deep Vacuum & Surface Wiping' },
+  { id: 'exterior-interior', name: 'Exterior and Interior (Includes Steam Detailing)', price: 'Thorough Exterior & Interior Steaming' },
+  { id: 'packages', name: 'Packages', price: 'Full Vehicle Detailing Packages' },
 ];
 
 const BookingPage = () => {
@@ -73,7 +72,7 @@ const BookingPage = () => {
                 <input 
                   type="tel" id="phone" name="phone" 
                   value={formData.phone} onChange={handleChange} 
-                  required placeholder="(604) 555-0000"
+                  required placeholder="(778) 637-0025"
                 />
               </div>
               <div className="form-group">
@@ -136,19 +135,24 @@ const BookingPage = () => {
             <h3>Prime Finish Auto Spa</h3>
             <div className="booking-info-item">
               <Phone size={16} />
-              <a href="tel:6043665373">(604) 366-5373</a>
+              <a href="tel:7786370025">(778) 637-0025</a>
             </div>
             <div className="booking-info-item">
               <Mail size={16} />
-              <a href="mailto:pristinedetailing604@gmail.com">pristinedetailing604@gmail.com</a>
+              <a href="mailto:primefinisha@gmail.com">primefinisha@gmail.com</a>
             </div>
             <div className="booking-info-item">
               <MapPin size={16} />
-              <span>Lower Mainland, BC</span>
+              <span>Surrey, B.C. · Lower Mainland</span>
             </div>
             <div className="booking-info-item">
               <Clock size={16} />
               <span>Open · Closes at 10 PM</span>
+            </div>
+
+            <div className="booking-payment-note" style={{ marginTop: '18px', paddingTop: '14px', borderTop: '1px solid var(--border-color)', fontSize: '0.85rem' }}>
+              <span style={{ fontWeight: '600', display: 'block', marginBottom: '6px', color: 'var(--text-primary)' }}>Accepted Payment Methods:</span>
+              <span style={{ color: 'var(--text-secondary)' }}>Debit, Mastercard, E-Transfer, Amex, Visa</span>
             </div>
           </div>
         </aside>

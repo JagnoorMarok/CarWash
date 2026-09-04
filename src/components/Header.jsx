@@ -10,9 +10,9 @@ const Header = () => {
           <Smartphone size={16} />
           <span>Get our app</span>
         </button>
-        <a href="tel:6043665373" className="top-bar-link">
+        <a href="tel:7786370025" className="top-bar-link">
           <Phone size={16} />
-          <span>Call us <strong>(604) 366-5373</strong></span>
+          <span>Call us <strong>(778) 637-0025</strong></span>
         </a>
       </div>
       

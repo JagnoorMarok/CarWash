@@ -19,27 +19,27 @@ const BookingModal = ({ isOpen, onClose }) => {
         </div>
 
         <div className="modal-body">
-          <a href="tel:6043665373" className="modal-action-btn">
+          <a href="tel:7786370025" className="modal-action-btn">
             <Phone size={20} />
             <div>
               <span className="action-title">Call to Book</span>
-              <span className="action-sub">(604) 366-5373</span>
+              <span className="action-sub">(778) 637-0025</span>
             </div>
           </a>
 
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="modal-action-btn">
+          <a href="mailto:primefinisha@gmail.com" className="modal-action-btn">
             <Calendar size={20} />
             <div>
-              <span className="action-title">Book Online</span>
-              <span className="action-sub">Schedule via DM</span>
+              <span className="action-title">Email Us</span>
+              <span className="action-sub">primefinisha@gmail.com</span>
             </div>
           </a>
 
           <div className="modal-action-btn">
             <MapPin size={20} />
             <div>
-              <span className="action-title">Visit Us</span>
-              <span className="action-sub">Lower Mainland, BC</span>
+              <span className="action-title">Service Area</span>
+              <span className="action-sub">Surrey, B.C. · Lower Mainland</span>
             </div>
           </div>
         </div>
