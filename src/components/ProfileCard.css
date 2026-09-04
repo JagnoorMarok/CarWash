@@ -1,0 +1,70 @@
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.profile-card .profile-image {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--border-color);
+}
+
+.profile-card .profile-info h1 {
+  font-size: 1.25rem;
+  margin-bottom: 4px;
+}
+
+.profile-card .rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 6px;
+  font-size: 0.875rem;
+}
+
+.profile-card .score {
+  font-weight: 600;
+}
+
+.profile-card .stars {
+  display: flex;
+}
+
+.profile-card .review-count {
+  color: var(--text-secondary);
+}
+
+.profile-card .hours {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+@media (min-width: 1024px) {
+  .profile-card {
+    position: static;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-card .profile-image {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 16px;
+  }
+
+  .profile-card .profile-info h1 {
+    font-size: 1.75rem;
+    margin-bottom: 8px;
+  }
+}

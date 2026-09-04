@@ -1,0 +1,142 @@
+.reviews-section {
+  padding-top: 10px;
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.sort-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: 1px solid var(--border-color);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.review-summary-card {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  background-color: var(--bg-main);
+}
+
+.write-btn {
+  background-color: var(--bg-main);
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.write-btn:hover {
+  background-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  border-color: var(--primary-color) !important;
+  transform: translateY(-1px);
+}
+
+.rating-big {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.big-score {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.stars-big {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 4px;
+}
+
+.rating-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rating-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stars-small {
+  display: flex;
+  gap: 2px;
+  min-width: 70px;
+  justify-content: flex-end;
+}
+
+.bar-container {
+  flex: 1;
+  height: 8px;
+  background-color: var(--bg-secondary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background-color: var(--text-primary);
+  border-radius: 4px;
+}
+
+.row-count {
+  min-width: 20px;
+  text-align: right;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  .reviews-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 60px;
+    align-items: start;
+  }
+  
+  .review-summary-container {
+    position: sticky;
+    top: 120px;
+  }
+
+  .review-summary-card {
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  .rating-bars {
+    width: 100%;
+  }
+
+  .bar-container {
+    min-width: 150px;
+  }
+}
+
