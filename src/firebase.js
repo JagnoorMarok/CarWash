@@ -3,13 +3,13 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCH32Und7_nOape6wfKUB8rOJnAlVQzjYA",
-  authDomain: "carwash-7c481.firebaseapp.com",
-  projectId: "carwash-7c481",
-  storageBucket: "carwash-7c481.firebasestorage.app",
-  messagingSenderId: "637258399630",
-  appId: "1:637258399630:web:f9a2a84bfd7360de836edf",
-  measurementId: "G-3727PCZE2T"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
