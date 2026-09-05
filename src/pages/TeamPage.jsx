@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Award, Clock, Shield, Sparkles } from 'lucide-react';
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase';
 import './TeamPage.css';
 
-const teamMembers = [
+const defaultSeedMembers = [
   {
+    id: 'seed-1',
     name: 'Arjun P.',
     role: 'Founder & Lead Detailer',
     photo: '/assets/team1.jpg',
@@ -12,6 +15,7 @@ const teamMembers = [
     specialties: ['Ceramic Coating', 'Paint Correction', 'Customer Relations'],
   },
   {
+    id: 'seed-2',
     name: 'Marcus D.',
     role: 'Senior Detailer',
     photo: '/assets/team2.jpg',
@@ -19,6 +23,7 @@ const teamMembers = [
     specialties: ['Interior Detailing', 'Leather Restoration', 'Steam Cleaning'],
   },
   {
+    id: 'seed-3',
     name: 'Prime Finish Team',
     role: 'The Crew',
     photo: '/assets/team.jpg',
@@ -29,12 +34,29 @@ const teamMembers = [
 
 const values = [
   { icon: <Sparkles size={24} />, title: 'Premium Quality', desc: 'We use only the best professional-grade products and tools.' },
-  { icon: <Shield size={24} />, title: 'Trusted Service', desc: '5.0 rating with 43+ reviews from satisfied customers.' },
+  { icon: <Shield size={24} />, title: 'Trusted Service', desc: '5.0 rating with customer satisfaction guarantee.' },
   { icon: <Clock size={24} />, title: 'Reliable Schedule', desc: 'On-time service with flexible booking options.' },
   { icon: <Award size={24} />, title: 'Certified Experts', desc: 'Trained and certified in the latest detailing techniques.' },
 ];
 
 const TeamPage = () => {
+  const [customMembers, setCustomMembers] = useState([]);
+
+  useEffect(() => {
+    const q = query(collection(db, 'team'), orderBy('createdAt', 'asc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const live = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setCustomMembers(live);
+    }, (err) => console.warn("Team listener error:", err));
+
+    return () => unsubscribe();
+  }, []);
+
+  // If user configured custom team members, show them; otherwise fallback to default seed team
+  const displayMembers = customMembers.length > 0 ? customMembers : defaultSeedMembers;
   return (
     <div className="team-page">
       <header className="team-page-header">
@@ -57,20 +79,22 @@ const TeamPage = () => {
       <div className="tp-content">
         {/* Team Members */}
         <section className="tp-members">
-          {teamMembers.map((member, i) => (
-            <div className="tp-member-card" key={i}>
+          {displayMembers.map((member, i) => (
+            <div className="tp-member-card" key={member.id || i}>
               <div className="tp-member-photo">
-                <img src={member.photo} alt={member.name} />
+                <img src={member.photo || '/assets/team.jpg'} alt={member.name} />
               </div>
               <div className="tp-member-info">
                 <h3>{member.name}</h3>
                 <span className="tp-role">{member.role}</span>
                 <p className="tp-bio">{member.bio}</p>
-                <div className="tp-specialties">
-                  {member.specialties.map((s, j) => (
-                    <span className="tp-tag" key={j}>{s}</span>
-                  ))}
-                </div>
+                {member.specialties?.length > 0 && (
+                  <div className="tp-specialties">
+                    {member.specialties.map((s, j) => (
+                      <span className="tp-tag" key={j}>{s}</span>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           ))}

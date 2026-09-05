@@ -285,6 +285,17 @@
   border-color: var(--text-secondary);
 }
 
+.rp-helpful-btn.active {
+  background: rgba(11, 94, 215, 0.12);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  font-weight: 600;
+}
+
+.rp-helpful-btn:active {
+  transform: scale(0.96);
+}
+
 @media (min-width: 768px) {
   .reviews-page-header {
     padding: 24px 40px;

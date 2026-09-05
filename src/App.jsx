@@ -5,6 +5,9 @@ import GalleryPage from './pages/GalleryPage';
 import BookingPage from './pages/BookingPage';
 import ReviewsPage from './pages/ReviewsPage';
 import TeamPage from './pages/TeamPage';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
 
 function ScrollToTop() {
@@ -18,6 +21,9 @@ function ScrollToTop() {
 }
 
 function App() {
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith('/dashboard');
+
   return (
     <>
       <ScrollToTop />
@@ -27,8 +33,17 @@ function App() {
         <Route path="/booking" element={<BookingPage />} />
         <Route path="/reviews" element={<ReviewsPage />} />
         <Route path="/team" element={<TeamPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
       </Routes>
-      <Footer />
+      {!isDashboard && <Footer />}
     </>
   );
 }

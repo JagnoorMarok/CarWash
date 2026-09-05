@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { X, Phone, Calendar, MapPin } from 'lucide-react';
 import './BookingModal.css';
 
@@ -19,6 +20,14 @@ const BookingModal = ({ isOpen, onClose }) => {
         </div>
 
         <div className="modal-body">
+          <Link to="/booking" className="modal-action-btn online-book-btn" onClick={onClose}>
+            <Calendar size={20} />
+            <div>
+              <span className="action-title">Book Online Form</span>
+              <span className="action-sub">Choose date, service & details</span>
+            </div>
+          </Link>
+
           <a href="tel:7786370025" className="modal-action-btn">
             <Phone size={20} />
             <div>

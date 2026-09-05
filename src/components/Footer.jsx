@@ -56,6 +56,9 @@ const Footer = () => {
 
         <div className="footer-bottom">
           <p>&copy; {new Date().getFullYear()} Prime Finish Auto Spa. All rights reserved.</p>
+          <div className="footer-admin-link">
+            <Link to="/login">Staff Portal</Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, X } from 'lucide-react';
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase';
 import './GalleryPage.css';
 
-const images = [
+const defaultImages = [
   { src: '/assets/gallery1.jpg', label: 'Exterior Detail' },
   { src: '/assets/gallery2.jpg', label: 'Interior Cleaning' },
   { src: '/assets/gallery3.jpg', label: 'Full Body Polish' },
@@ -14,6 +16,26 @@ const images = [
 
 const GalleryPage = () => {
   const [lightbox, setLightbox] = useState(null);
+  const [customImages, setCustomImages] = useState([]);
+
+  useEffect(() => {
+    const q = query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const live = snapshot.docs.map(doc => ({
+        id: doc.id,
+        src: doc.data().src,
+        label: doc.data().label || 'Auto Detailing'
+      }));
+      setCustomImages(live);
+    }, (error) => {
+      console.warn("Gallery listener error:", error);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Show custom images if user added any in Firestore, otherwise fallback to default templates
+  const allImages = customImages.length > 0 ? customImages : defaultImages;
 
   return (
     <div className="gallery-page">
@@ -23,12 +45,12 @@ const GalleryPage = () => {
           <span>Back</span>
         </Link>
         <h1>Gallery</h1>
-        <span className="photo-count">{images.length} photos</span>
+        <span className="photo-count">{allImages.length} photos</span>
       </header>
 
       <div className="gallery-page-grid">
-        {images.map((img, i) => (
-          <div className="gallery-page-item" key={i} onClick={() => setLightbox(i)}>
+        {allImages.map((img, i) => (
+          <div className="gallery-page-item" key={img.id || i} onClick={() => setLightbox(i)}>
             <img src={img.src} alt={img.label} />
             <div className="gallery-page-label">{img.label}</div>
           </div>
@@ -42,12 +64,12 @@ const GalleryPage = () => {
             <X size={28} />
           </button>
           <img 
-            src={images[lightbox].src} 
-            alt={images[lightbox].label} 
+            src={allImages[lightbox].src} 
+            alt={allImages[lightbox].label} 
             className="lightbox-img"
             onClick={(e) => e.stopPropagation()}
           />
-          <p className="lightbox-label">{images[lightbox].label}</p>
+          <p className="lightbox-label">{allImages[lightbox].label}</p>
           <div className="lightbox-nav">
             <button 
               disabled={lightbox === 0} 
@@ -55,9 +77,9 @@ const GalleryPage = () => {
             >
               ←
             </button>
-            <span>{lightbox + 1} / {images.length}</span>
+            <span>{lightbox + 1} / {allImages.length}</span>
             <button 
-              disabled={lightbox === images.length - 1} 
+              disabled={lightbox === allImages.length - 1} 
               onClick={(e) => { e.stopPropagation(); setLightbox(lightbox + 1); }}
             >
               →

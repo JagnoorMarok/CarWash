@@ -114,12 +114,35 @@
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   text-align: center;
 }
 
 .footer-bottom p {
   color: rgba(255, 255, 255, 0.3);
   font-size: 0.8rem;
+}
+
+.footer-admin-link a {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.75rem;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: color 0.2s ease;
+}
+
+.footer-admin-link a:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (min-width: 768px) {
+  .footer-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 
 @media (min-width: 768px) {

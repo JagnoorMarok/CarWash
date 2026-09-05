@@ -33,6 +33,26 @@
   letter-spacing: 1px;
   cursor: pointer;
   transition: color 0.2s ease;
+  text-align: left;
+}
+
+.accordion-title-col {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.service-header-price {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  background: rgba(11, 94, 215, 0.1);
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  border: 1px solid rgba(11, 94, 215, 0.2);
 }
 
 .accordion-header:hover {

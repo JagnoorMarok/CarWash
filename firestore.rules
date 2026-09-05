@@ -1,0 +1,86 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // -------------------------------------------------------------
+    // Bookings Collection
+    // -------------------------------------------------------------
+    match /bookings/{bookingId} {
+      // Only authenticated staff can view the bookings list
+      allow read: if isAuthenticated();
+
+      // Anyone can submit a booking request; enforced as pending
+      allow create: if request.resource.data.name is string
+        && request.resource.data.phone is string
+        && request.resource.data.status == 'pending';
+
+      // Only staff can update status or delete
+      allow update, delete: if isAuthenticated();
+    }
+
+    // -------------------------------------------------------------
+    // Reviews Collection
+    // -------------------------------------------------------------
+    match /reviews/{reviewId} {
+      // Public visitors can only view approved reviews; staff can read all
+      allow read: if resource.data.approved == true || isAuthenticated();
+
+      // Anyone can submit a review; enforced as unapproved (pending moderation)
+      allow create: if request.resource.data.name is string
+        && request.resource.data.text is string
+        && request.resource.data.rating is number
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5
+        && request.resource.data.approved == false;
+
+      // Only staff can approve, hide, or delete reviews
+      allow update, delete: if isAuthenticated();
+    }
+
+    // -------------------------------------------------------------
+    // Gallery Collection
+    // -------------------------------------------------------------
+    match /gallery/{galleryId} {
+      // Public can view showcase photos
+      allow read: if true;
+
+      // Only staff can upload or delete photos
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    // -------------------------------------------------------------
+    // Team Collection
+    // -------------------------------------------------------------
+    match /team/{teamMemberId} {
+      // Public can view team profiles
+      allow read: if true;
+
+      // Only staff can add, edit, or delete team members
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    // -------------------------------------------------------------
+    // Services Collection
+    // -------------------------------------------------------------
+    match /services/{serviceId} {
+      // Public can view services and pricing
+      allow read: if true;
+
+      // Only staff can add, edit, or delete services
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    // -------------------------------------------------------------
+    // Default Deny
+    // -------------------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

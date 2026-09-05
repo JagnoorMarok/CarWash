@@ -1,60 +1,39 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, CheckCircle2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronDown, ChevronUp, CheckCircle2, Tag } from 'lucide-react';
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase';
+import { defaultSeedServices } from '../components/dashboard/ServicesManager';
 import './Services.css';
 
-const servicesData = [
-  {
-    id: 'EXTERIOR WASH',
-    title: 'Exterior Wash',
-    description: 'Professional exterior hand washing, rim and tire detailing, streak-free window cleaning, and high-gloss protective finish.',
-    features: [
-      'Exterior hand wash & foam bath',
-      'Wheel & tire deep cleaning',
-      'Streak-free exterior window finish',
-      'High-gloss spray protection'
-    ]
-  },
-  {
-    id: 'INTERIOR CLEANING',
-    title: 'Interior Cleaning',
-    description: 'Thorough interior deep cleaning, complete vacuuming, detailed surface wipe-down, dash and console rejuvenation, and clean door jambs.',
-    features: [
-      'Thorough cabin & trunk vacuuming',
-      'Detailed surface & vent cleaning',
-      'Dashboard & console rejuvenation',
-      'Door jambs & glass cleaned'
-    ]
-  },
-  {
-    id: 'EXTERIOR AND INTERIOR',
-    title: 'Exterior and Interior',
-    description: 'Includes a thorough exterior wash and interior cleaning, including detailed steaming of seats and interior surfaces.',
-    features: [
-      'Thorough exterior hand wash & rim cleaning',
-      'Complete interior deep cleaning & vacuuming',
-      'Detailed steaming of seats and interior surfaces',
-      'Steam disinfection & stain removal treatment',
-      'Interior shampooing & surface conditioning'
-    ]
-  },
-  {
-    id: 'PACKAGES',
-    title: 'Packages',
-    description: 'Comprehensive detailing packages designed to restore and maintain your vehicle in showroom condition with long-lasting protection.',
-    features: [
-      'Full vehicle restoration & deep steam detailing',
-      'Steam disinfection & odor neutralization',
-      'Protective finishes for interior & exterior',
-      'Custom packages tailored to your vehicle'
-    ]
-  }
-];
-
 const Services = () => {
-  const [openSection, setOpenSection] = useState('EXTERIOR AND INTERIOR');
+  const [customServices, setCustomServices] = useState([]);
+  const [openSection, setOpenSection] = useState(null);
 
-  const toggleSection = (section) => {
-    setOpenSection(openSection === section ? null : section);
+  useEffect(() => {
+    const q = query(collection(db, 'services'), orderBy('order', 'asc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const live = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setCustomServices(live);
+      if (live.length > 0 && !openSection) {
+        setOpenSection(live[0].id);
+      }
+    }, (err) => {
+      console.warn("Services listener error:", err);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const displayServices = customServices.length > 0 ? customServices : defaultSeedServices;
+
+  // Default to first open item if not selected
+  const currentOpen = openSection || displayServices[0]?.id;
+
+  const toggleSection = (sectionId) => {
+    setOpenSection(currentOpen === sectionId ? null : sectionId);
   };
 
   return (
@@ -63,26 +42,31 @@ const Services = () => {
         <h2 className="section-title">Services</h2>
         
         <div className="accordion">
-          {servicesData.map((service) => (
+          {displayServices.map((service) => (
             <div className="accordion-item" key={service.id}>
               <button 
                 className="accordion-header"
                 onClick={() => toggleSection(service.id)}
               >
-                <span>{service.title}</span>
-                {openSection === service.id ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                <div className="accordion-title-col">
+                  <span>{service.title}</span>
+                  {service.price && <span className="service-header-price">{service.price}</span>}
+                </div>
+                {currentOpen === service.id ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
               </button>
-              {openSection === service.id && (
+              {currentOpen === service.id && (
                 <div className="accordion-content">
                   <p className="service-desc">{service.description}</p>
-                  <ul className="service-features">
-                    {service.features.map((feat, idx) => (
-                      <li key={idx} className="service-feature-item">
-                        <CheckCircle2 size={16} className="feature-icon" />
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {service.features?.length > 0 && (
+                    <ul className="service-features">
+                      {service.features.map((feat, idx) => (
+                        <li key={idx} className="service-feature-item">
+                          <CheckCircle2 size={16} className="feature-icon" />
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               )}
             </div>
